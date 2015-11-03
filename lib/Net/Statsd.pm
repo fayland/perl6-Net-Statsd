@@ -6,7 +6,7 @@ has Int $.port = 8125;
 has Str $.namespace is rw = '';
 
 method _socket {
-    state $_socket = IO::Socket::INET.new( :$.host, :$.port, :proto{PIO::PROTO_UDP} );
+    state $_socket = IO::Socket::INET.new( :host($!host), :port($!port), :proto(17) );
     return $_socket;
 }
 
