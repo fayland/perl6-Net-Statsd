@@ -11,7 +11,7 @@ method _socket {
 }
 
 method count($stat, $count, *%opts) {
-    self.send_stats($stat, $count, 'c', %opts);
+    self.send_stats($stat, $count, 'c', |%opts);
 }
 
 method send_stats($stat is copy, $delta, $type, *%opts) {
