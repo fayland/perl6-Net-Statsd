@@ -10,11 +10,11 @@ method _socket {
     return $_socket;
 }
 
-method count($stat, $count, :%opts) {
-    self.send_stats($stat, $count, 'c');
+method count($stat, $count, *%opts) {
+    self.send_stats($stat, $count, 'c', %opts);
 }
 
-method send_stats($stat is copy, $delta, $type, :%opts) {
+method send_stats($stat is copy, $delta, $type, *%opts) {
     my $sample_rate = %opts<sample_rate>:exists ?? %opts<sample_rate> !! 1;
     if $sample_rate == 1 or 1.rand <= $sample_rate.Int {
         $stat = $stat.subst('::', '', :g);
