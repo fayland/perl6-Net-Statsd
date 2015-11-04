@@ -58,6 +58,14 @@ multi method timing($stat, Int $value, *%opts) {
     self.send_stats($stat, $value, 'ms', |%opts);
 }
 
+multi method set($stat, $value, Int $sample_rate) {
+    self.send_stats($stat, $value, 's', |(sample_rate => $sample_rate));
+}
+
+multi method set($stat, $value, *%opts) {
+    self.send_stats($stat, $value, 's', |%opts);
+}
+
 method send_stats($stat is copy, $delta, $type, *%opts) {
     my $sample_rate = %opts<sample_rate>:exists ?? %opts<sample_rate> !! 1;
     if $sample_rate == 1 or 1.rand <= $sample_rate.Int {
