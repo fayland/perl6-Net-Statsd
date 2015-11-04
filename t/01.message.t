@@ -28,13 +28,16 @@ is $got_message, 'test.desc:-1|c|@2';
 $statsd.decrement('test.desc', |(sample_rate => 2));
 is $got_message, 'test.desc:-1|c|@2';
 
-$statsd.count('test.desc', 30);
-is $got_message, 'test.desc:30|c', 'count';
+$statsd.count('test.count', 30);
+is $got_message, 'test.count:30|c', 'count';
 
-$statsd.count('test.desc', 30, 2);
-is $got_message, 'test.desc:30|c|@2';
+$statsd.count('test.count', 30, 2);
+is $got_message, 'test.count:30|c|@2';
 
-$statsd.count('test.desc', 30, |(sample_rate => 2));
-is $got_message, 'test.desc:30|c|@2';
+$statsd.count('test.count', 30, |(sample_rate => 2));
+is $got_message, 'test.count:30|c|@2';
+
+$statsd.timing('test.timing', 1000);
+is $got_message, 'test.timing:1000|ms', 'timing';
 
 done-testing;

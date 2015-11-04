@@ -34,6 +34,30 @@ multi method count($stat, $count, *%opts) {
     self.send_stats($stat, $count, 'c', |%opts);
 }
 
+multi method gauge($stat, $value, Int $sample_rate) {
+    self.send_stats($stat, $value, 'g', |(sample_rate => $sample_rate));
+}
+
+multi method gauge($stat, $value, *%opts) {
+    self.send_stats($stat, $value, 'g', |%opts);
+}
+
+multi method histogram($stat, $value, Int $sample_rate) {
+    self.send_stats($stat, $value, 'h', |(sample_rate => $sample_rate));
+}
+
+multi method histogram($stat, $value, *%opts) {
+    self.send_stats($stat, $value, 'h', |%opts);
+}
+
+multi method timing($stat, Int $value, Int $sample_rate) {
+    self.send_stats($stat, $value, 'ms', |(sample_rate => $sample_rate));
+}
+
+multi method timing($stat, Int $value, *%opts) {
+    self.send_stats($stat, $value, 'ms', |%opts);
+}
+
 method send_stats($stat is copy, $delta, $type, *%opts) {
     my $sample_rate = %opts<sample_rate>:exists ?? %opts<sample_rate> !! 1;
     if $sample_rate == 1 or 1.rand <= $sample_rate.Int {
