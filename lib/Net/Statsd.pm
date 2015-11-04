@@ -10,7 +10,27 @@ method _socket {
     return $_socket;
 }
 
-method count($stat, $count, *%opts) {
+multi method increment($stat, Int $sample_rate) {
+    self.count($stat, 1, |(sample_rate => $sample_rate));
+}
+
+multi method increment($stat, *%opts) {
+    self.count($stat, 1, |%opts);
+}
+
+multi method decrement($stat, Int $sample_rate) {
+    self.count($stat, -1, |(sample_rate => $sample_rate));
+}
+
+multi method decrement($stat, *%opts) {
+    self.count($stat, -1, |%opts);
+}
+
+multi method count($stat, $count, Int $sample_rate) {
+    self.send_stats($stat, $count, 'c', |(sample_rate => $sample_rate));
+}
+
+multi method count($stat, $count, *%opts) {
     self.send_stats($stat, $count, 'c', |%opts);
 }
 
